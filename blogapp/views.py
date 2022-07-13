@@ -6,6 +6,7 @@ from blogapp.forms import UserRegForm,LoginForm,UserProfileForm,PasswordResetFor
 from django.contrib.auth import authenticate,login,logout
 from blogapp.models import UserProfile,Blogs,Comments
 from django.contrib import messages
+
 # Create your views here.
 
 class SignUpView(CreateView):
@@ -31,6 +32,7 @@ class LoginView(FormView):
                 return redirect("home")
             else:
                 return render(request,self.template_name,{'form':form})
+
 
 class IndexView(CreateView):
     model = Blogs
@@ -141,7 +143,6 @@ def add_like(request,*args,**kwargs):
 def sign_out(request,*args,**kwargs):
     logout(request)
     return redirect("signin")
-
 
 
 

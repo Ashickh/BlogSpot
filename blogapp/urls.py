@@ -12,5 +12,8 @@ path('accounts/signup',views.SignUpView.as_view(),name="signup"),
     path('users/pic/change<int:user_id>',views.ProfilePicUpdateView.as_view(),name="pic-change"),
     path('post/comment/<int:post_id>',views.add_comment,name='add-comment'),
     path('post/like/add/<int:post_id>',views.add_like,name='add-like'),
+
+
+
     path('accounts/logout',views.sign_out,name="sign-out")
 ]

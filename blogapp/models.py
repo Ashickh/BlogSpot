@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+
 class UserProfile(models.Model):
     profile_pic=models.ImageField(upload_to="profilepics",null=True)
     bio=models.CharField(max_length=120)
@@ -38,6 +39,9 @@ class Blogs(models.Model):
         return users
 
 
+
+
+
     def __str__(self):
         return self.title
 
@@ -48,6 +52,11 @@ class Comments(models.Model):
 
     def __str__(self):
         return self.comment
+
+
+
+
+
 
 # Create your models here.
 
