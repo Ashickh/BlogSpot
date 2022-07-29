@@ -1,19 +1,15 @@
-{%extends 'base.html'%}
+{%extends 'base1.html'%}
 
 {%block body_block%}
 
-<<div class="container">
-    <div class="row">
-        <div class="col-4"></div>
-        <div class="col-4">
+<div class="container" style="padding-top:26px;">
+
             <form action="" method="post" enctype="multipart/form-data">
                 {%csrf_token%}
                 {{form.as_p}}
-                <input type="submit">
+                <input type="submit" class="btn btn-primary" id="addbtn">
             </form>
-        </div>
-        <div class="col-4"></div>
-    </div>
+
 </div>
 
 {%endblock%}

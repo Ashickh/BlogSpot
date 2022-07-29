@@ -6,8 +6,21 @@ from blogapp.forms import UserRegForm,LoginForm,UserProfileForm,PasswordResetFor
 from django.contrib.auth import authenticate,login,logout
 from blogapp.models import UserProfile,Blogs,Comments
 from django.contrib import messages
+from django.utils.decorators import method_decorator
 
 # Create your views here.
+
+def signin_required(fn):
+    def wrapper(request,*args,**kwargs):
+        if request.user.is_authenticated:
+            return fn(request,*args,**kwargs)
+        else:
+            messages.error(request,"User must be logged in")
+            return redirect("signin")
+    return wrapper
+
+
+
 
 class SignUpView(CreateView):
     form_class=UserRegForm
@@ -33,7 +46,7 @@ class LoginView(FormView):
             else:
                 return render(request,self.template_name,{'form':form})
 
-
+@method_decorator(signin_required,name='dispatch')
 class IndexView(CreateView):
     model = Blogs
     form_class = BlogForm
@@ -55,7 +68,7 @@ class IndexView(CreateView):
 
 
 
-
+@method_decorator(signin_required,name='dispatch')
 class UserProfileView(CreateView):
     model = UserProfile
     template_name = "addprofile.html"
@@ -68,9 +81,12 @@ class UserProfileView(CreateView):
         self.object = form.save ()
         return super ().form_valid (form)
 
+@method_decorator(signin_required,name='dispatch')
 class UserDetailView(TemplateView):
 
     template_name = "userdetail.html"
+
+@method_decorator(signin_required,name='dispatch')
 
 class PasswordResetView(FormView):
     template_name = "pwd-reset.html"
@@ -92,6 +108,7 @@ class PasswordResetView(FormView):
                 messages.error(request,"invalid credentials")
                 return render(request,self.template_name,{'form':form})
 
+@method_decorator(signin_required,name='dispatch')
 class ProfileUpdateView(UpdateView):
     form_class = UserProfileForm
     template_name = "update-user.html"
@@ -132,6 +149,21 @@ def add_like(request,*args,**kwargs):
     blog.liked_by.add(request.user)
     blog.save()
     return redirect('home')
+
+def remove_post(request,*args,**kwargs):
+    blog_id=kwargs.get("post_id")
+    blog=Blogs.objects.get(id=blog_id)
+    blog.delete()
+    messages.success(request,"post has been removed")
+    return redirect("home")
+
+def follow_friend(request,*args,**kwargs):
+    follower_id=kwargs.get('user_id')
+    user_profile=UserProfile.objects.get(user=request.user)
+    follower=User.objects.get(id=follower_id)
+    user_profile.following.add(follower)
+    messages.success(request,"you have followed")
+    return redirect("home")
 
 
 

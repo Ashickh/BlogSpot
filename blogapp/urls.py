@@ -11,6 +11,8 @@ path('accounts/signup',views.SignUpView.as_view(),name="signup"),
     path('users/profile/change/<int:user_id>',views.ProfileUpdateView.as_view(),name="profile-update"),
     path('users/pic/change<int:user_id>',views.ProfilePicUpdateView.as_view(),name="pic-change"),
     path('post/comment/<int:post_id>',views.add_comment,name='add-comment'),
+    path('post/erase/<int:blog_id>',views.remove_post,name='remove-post'),
+    path('user/follow/<int:user_id>',views.follow_friend,name='follow-friend'),
     path('post/like/add/<int:post_id>',views.add_like,name='add-like'),
 
 

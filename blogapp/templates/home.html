@@ -1,78 +1,99 @@
-{%extends 'base.html'%}
-
+{%extends 'base1.html'%}
+{%load static%}
 {%block body_block%}
 
-<div class="row">
-    <div class="col-4"></div>
-    <div class="col-4">
 
-        <h1>Welcome:{{request.user}}</h1>
-    </div>
-    <div class="col-4"></div>
-</div>
-
-<div class="container w-100">
-<div class="row">
-
-<div class="col-4  mt-4 h-5" style="height:570px; box-shadow: 5px 5px 6px #cccccc;
-       padding: 10px; border: 1px solid #eeeeee;" >
-    <style>
-
-    </style>
-        <div class="">
-<h1>Create Blog</h1>
-        <form action="" method="post" enctype="multipart/form-data" class="mt-5">
-            {%csrf_token%}
-            {{form.as_p}}
-            <input type="submit" value="POST"></form>
-
-</div>
-    </div>
-    <div class="col-1">
-
-    </div>
-
-
-    <div class="col-7 mt-4" data-aos="fade-up" style="box-shadow: 5px 5px 6px #cccccc;
-       padding: 10px; border: 1px solid #eeeeee;">
-        {%for blog in blogs%}
-        <h1>Recent Blogs</h1>
-        <div class="mt-5">
-
-
-            <p>{{blog.title}}</p>
-            <p>{{blog.description}}</p>
-            <img src="{{blog.image.url}}" alt="" style="height:406px ">
-            <p>Posted by: {{blog.author}}</p>
-            <p>Posted on: {{blog.posted_date}}</p>
-
-          {{blog.get_liked_users}}" <p>{{blog.get_like_count}} Likes</p>
-            <a href="{%url 'add-like' blog.id%}">Like</a>
-
-
-
-            <form action="{%url 'add-comment' blog.id%}" method="post">
-                {%csrf_token%}
-                {{comment_form.as_p}}
-                <input type="submit" >
-            </form>
-
-            {%for comment in blog.comments_set.all%}
-
-            <div class="breadcrumbs mt-4" >
-               <p> {{comment.comment}}</p>
-               <p> <strong>{{comment.user}}</strong></p>
+<div class="post-container">
+    <div class="post-row">
+        <div class="user_profile">
+            <img src="{{request.user.users.profile_pic.url}}">
+            <div>
+                <p>{{request.user}}</p>
             </div>
-
-            {%endfor%}
         </div>
 
-        {%endfor%}
-
+        <a href=""><i class="fas fa-ellipsis-v"></i></a>
     </div>
 
 
+    {%for blog in blogs%}
+
+
+    <p class="post-text">{{blog.title}}</p>
+    <p class="post-text">{{blog.description}}</p>
+    <img src="{{blog.image.url}}" class="post-img">
+    <p class="post-text">Posted by: {{blog.author}}</p>
+    <span>Posted on: {{blog.posted_date}}</span>
+
+    <div class="post-row">
+
+        <div class="activity-icons">
+            <div><a href="{%url 'add-like' blog.id%}"><img src="{%static 'images/like-blue.png'%}"></a>
+                <p class="like">{{blog.get_like_count}} </p>
+            </div>
+            <div>
+
+                <p>
+                    <button class="btn btn-primary" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseWidthExample" aria-expanded="false"
+                            aria-controls="collapseWidthExample">
+                        Comment
+                    </button>
+                </p>
+                <div style="min-height: 120px;">
+                    <div class="collapse collapse-horizontal" id="collapseWidthExample">
+                        <div class="card card-body" style="width: 300px;">
+                            <form action="{%url 'add-comment' blog.id%}" method="post">
+                                {%csrf_token%}
+                                {{comment_form.as_p}}
+                                <input type="submit">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <p>
+                    <a class="btn" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false"
+                       aria-controls="collapseExample">
+                        <img src="{%static 'images/comments.png'%}">
+                    </a>
+
+                </p>
+                <div class="collapse" id="collapseExample">
+                    <div class="card card-body">
+
+                        {%for comment in blog.comments_set.all%}
+
+                        <div class="breadcrumbs mt-4">
+                            <p><strong>{{comment.user}}:</strong></p>
+                            <p> {{comment.comment}}</p>
+
+                            <p>{{blog.user.profile_pic}}</p>
+                        </div>
+
+                        {%endfor%}
+
+                    </div>
+                </div>
+
+
+            </div>
+            <div><img src="{%static 'images/share.png'%}"></div>
+        </div>
+        <div class="post-profile-icon">
+            <img src="{{request.user.users.profile_pic.url}}"><i class="fa-solid fa-caret-down"></i>
+        </div>
+    </div>
+
+
+    {%endfor%}
+
 </div>
 </div>
+
+<button type="button" class="load-more">Load More</button>
+
+</div>
+
 
 {%endblock%}

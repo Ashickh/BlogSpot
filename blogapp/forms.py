@@ -30,9 +30,14 @@ class LoginForm(forms.Form):
 class UserProfileForm(ModelForm):
     class Meta:
         model=UserProfile
-        exclude=("user",)
+        exclude=("user","following")
         widgets={
-            "dob":forms.DateInput(attrs={'class':'form-control','type':'date'})
+            "dob":forms.DateInput(attrs={'class':'form-control','type':'date'}),
+            "profile_pic":forms.FileInput(attrs={'class':'form-control rounded-pill'}),
+            "bio": forms.TextInput (attrs={'class': 'form-control rounded-pill'}),
+            "phone": forms.TextInput (attrs={'class': 'form-control rounded-pill'}),
+            "gender": forms.TextInput (attrs={'class': 'form-control rounded-pill'}),
+
         }
 
 class PasswordResetForm(forms.Form):
@@ -44,12 +49,12 @@ class BlogForm(ModelForm):
     class Meta:
         model=Blogs
         fields=[
-            "title",
+
             "description",
             "image"
         ]
         widgets={
-            "title": forms.TextInput (attrs={'class': 'form-contol'}),
+
             "description":forms.Textarea(attrs={'class':'form-control'}),
             "image":forms.FileInput(attrs={'class':'form-control'})
         }
