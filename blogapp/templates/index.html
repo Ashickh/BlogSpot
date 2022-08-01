@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+{%load static%}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+      integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+<script src="https://kit.fontawesome.com/48cc297c0b.js" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="{%static 'css/style.css'%}">
+<script src="https://kit.fontawesome.com/48cc297c0b.js" crossorigin="anonymous"></script>
+
+<body>
+
+
+<nav class="navbar navbar-dark navbar-expand-lg bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#"><h1><span class="bg-success">Blog</span><span class="bg-danger">Spot</span>
+        </h1></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="{%url 'home'%}">Home</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false">
+                        Profile Management
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+
+                        {%if request.user.users%}
+                        <li><a class="dropdown-item" href="{%url 'details'%}">View Profile</a></li>
+                        {%else%}
+                        <li><a class="dropdown-item" href="{%url 'add-profile'%}">Add Profile</a></li>
+                        {%endif%}
+
+                        <li><a class="dropdown-item" href="{%url 'pwd-reset'%}">Change Password</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item" href="{%url 'sign-out'%}">Log Out</a></li>
+                    </ul>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{%url 'add-profile'%}">Link</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link disabled">Disabled</a>
+                </li>
+
+
+            </ul>
+            <form class="d-flex" role="search">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+
+
+            <div class="nav-user-icon online">
+                {%if request.user.users.profile_pic%}
+
+                <a href="{%url 'pic-change' request.user.users.id%}">
+
+                    <img src="{{request.user.users.profile_pic.url}}">
+                </a></div>
+            {%endif%}
+        </div>
+    </div>
+</nav>
+
+<div class="row">
+    <div class="col-4"></div>
+    <div class="col-4">
+        {%if messages%}
+        {%for msg in messages%}
+        {%if msg.level == DEFAULT_MESSAGE_LEVELS.SUCCESS%}
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>"{{msg}}"</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {%endif%}
+
+        {%if msg.level == DEFAULT_MESSAGE_LEVELS.ERROR%}
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>"{{msg}}"</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {%endif%}
+        {%endfor%}
+        {%endif%}
+    </div>
+    <div class="col-4">
+
+    </div>
+</div>
+</div>
+
+
+<div class="abc">
+    <!--    left-sidebar-->
+    <div class="left-sidebar">
+        <div class="imp-links">
+
+            <a href="{%url 'home'%}"><img src="{%static 'images/pro.png'%}"> {{request.user}}</a>
+
+            <a href="{%url 'details'%}"><img src="{%static 'images/bio.png'%}"> {{request.user.users.bio}}</a>
+
+            <a href="{%url 'add-profile'%}"><img src="{%static 'images/phone.png'%}">{{request.user.users.phone}}</a>
+            <a href="#"><img src="{%static 'images/gender.png'%}"> {{request.user.users.gender}}</a>
+            <a href="#"><img src="{%static 'images/dob.png'%}"> DOB: {{request.user.users.dob}}</a>
+
+            <p>
+
+                <button class="btn btn-primary" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                      Followings:
+                    {{request.user.users.fetch_following_count}}
+                </button>
+            </p>
+            <div class="collapse" id="collapseExample">
+                <div class="card card-body">
+                     {%for user in request.user.users.fetch_following%}
+ <div class="breadcrumbs mt-4">
+                        <p> {{user}}</p>
+
+                    </div>
+                    {%endfor%}
+                </div>
+            </div>
+
+
+            <a href="#">
+
+
+                {%if request.user.users.get_followers%}
+                {%for user in request.user.users.get_followers%}
+                <p> {{user.username}}</p>
+                {%endfor%}
+                {%endif%}
+
+
+                <a href="{%url 'sign-out'%}"><img src="{%static 'images/logout.png'%}">Log Out</a>
+                <a href="">See More</a>
+
+        </div>
+        <div class="shortcut-links">
+            <p>Suggestions</p>
+            {%if request.user.users.get_invitations%}
+            {%for user in request.user.users.get_invitations%}
+            <p><strong>{{user.username}}</strong> <a href="{%url 'follow-friend' user.id%}"> <button class="btn btn-primary">Follow</button></a></p>
+
+
+            {%endfor%}
+            {%endif%}
+
+        </div>
+    </div>
+
+    <div class="main-content">
+
+        <div class="story_gallery">
+            <div class="story story1">
+                <img src="{%static 'images/upload.png'%}" alt="">
+                <p>Post Story</p>
+            </div>
+            <div class="story story2">
+                <img src="{%static 'images/rinsha.jpeg'%}" alt="">
+                <p>Rinsha Karim</p>
+            </div>
+            <div class="story story3">
+                <img src="{%static 'images/zammu.jpeg'%}" alt="">
+                <p>Hazrat Zamaan</p>
+            </div>
+            <div class="story story4">
+                <img src="{%static 'images/member-4.png'%}" alt="">
+                <p>Ashiq Hassan</p>
+            </div>
+            <div class="story story5">
+                <img src="{%static 'images/member-5.png'%}" alt="">
+                <p>Vivek Joy</p>
+            </div>
+
+        </div>
+
+
+        <div class="write_post_container">
+            <div class="user_profile">
+                <img src="{{request.user.users.profile_pic.url}}">
+                <div>
+                    <p>{{request.user}}</p>
+                    <small>Public<i class="fa-solid fa-caret-down"></i></small>
+                </div>
+            </div>
+
+
+
+
+
+
+            {%block body_block%}
+
+            {%endblock%}
+
+
+
+            <!--    right-sidebar-->
+            <div class="right-sidebar">
+                <div class="sidebar-title">
+                    <h4>Events</h4>
+                    <a href="#">See All</a>
+                </div>
+
+                <div class="event">
+                    <div class="left-event">
+                        <h3>18</h3>
+                        <span>March</span>
+                    </div>
+                    <div class="right-event">
+                        <h4>Social Media</h4>
+                        <p><i class="fa-solid fa-location-dot"></i> Info Park</p>
+                        <a href="#">More Info</a>
+                    </div>
+                </div>
+
+                <div class="event">
+                    <div class="left-event">
+                        <h3>22</h3>
+                        <span>June</span>
+                    </div>
+                    <div class="right-event">
+                        <h4>Mobile Marketing</h4>
+                        <p><i class="fa-solid fa-location-dot"></i> Info Park</p>
+                        <a href="#">More Info</a>
+                    </div>
+                </div>
+
+                <div class="sidebar-title">
+                    <h4>Advertisements</h4>
+                    <a href="#">Close</a>
+                </div>
+                <img src="{%static 'images/cricket.jpg'%}" class="sidebar-ads">
+
+                <div class="sidebar-title">
+                    <h4>Conversations</h4>
+                    <a href="#">Hide Chat</a>
+                </div>
+
+                <div class="online-list">
+                    <div class="online">
+                        <img src="{%static 'images/rinsha.jpeg'%}" alt="">
+                    </div>
+                    <p>Rinsha Karim</p>
+                </div>
+
+                <div class="online-list">
+                    <div class="online">
+                        <img src="{%static 'images/zammu.jpeg'%}" alt="">
+                    </div>
+                    <p>Hazrat Zamaan</p>
+                </div>
+
+                <div class="online-list">
+                    <div class="online">
+                        <img src="{%static 'images/member-3.png'%}" alt="">
+                    </div>
+                    <p>Ashiq Hassan</p>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>Copyright 2022 - Ashiq Hassan</p>
+        </div>
+
+
+</body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
+        crossorigin="anonymous"></script>
+</html>
