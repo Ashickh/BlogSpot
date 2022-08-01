@@ -31,7 +31,7 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                        data-bs-toggle="dropdown" aria-expanded="false">
-                        Profile
+                        Profile Management
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
 
@@ -138,7 +138,7 @@
             </div>
 
 
-            <a href="#">My Followers:
+            <a href="#">
 
 
                 {%if request.user.users.get_followers%}
@@ -201,36 +201,16 @@
                 </div>
             </div>
 
-            <div class="post-input-container">
-
-                <form action="" method="post" enctype="multipart/form-data" class="mt-5">
-                    {%csrf_token%}
 
 
-                    <textarea rows="3" name="description"
-                              placeholder="What's on your mind {{request.user}}.?"></textarea>
-                    <div class="add-post-links">
-                        <a href="#"> <img src="{%static 'images/live-video.png'%}" alt="">Live Video</a>
-                        <a href="#"> <img src="{%static 'images/photo.png'%}" alt=""><input type="file" name="image"
-                        ></a>
-
-                        <a href="#"> <img src="{%static 'images/feeling.png'%}" alt="">Feeling/Activity</a>
-                        <input type="submit" value="POST">
-                    </div>
-
-                </form>
 
 
-            </div>
-
-
-            <body>
 
             {%block body_block%}
 
             {%endblock%}
 
-            </body>
+
 
             <!--    right-sidebar-->
             <div class="right-sidebar">
@@ -267,7 +247,7 @@
                     <h4>Advertisements</h4>
                     <a href="#">Close</a>
                 </div>
-                <img src="{%static 'images/advertisement.png'%}" class="sidebar-ads">
+                <img src="{%static 'images/cricket.jpg'%}" class="sidebar-ads">
 
                 <div class="sidebar-title">
                     <h4>Conversations</h4>

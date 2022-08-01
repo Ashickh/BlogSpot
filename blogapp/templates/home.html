@@ -3,6 +3,30 @@
 {%block body_block%}
 
 
+ <div class="post-input-container">
+
+                <form action="" method="post" enctype="multipart/form-data" class="mt-5">
+                    {%csrf_token%}
+
+
+                    <textarea rows="3" name="description"
+                              placeholder="What's on your mind {{request.user}}.?"></textarea>
+                    <div class="add-post-links">
+                        <a href="#"> <img src="{%static 'images/live-video.png'%}" alt="">Live Video</a>
+                        <a href="#"> <img src="{%static 'images/photo.png'%}" alt=""><input type="file" name="image"
+                        >Photo Video</a>
+
+                        <a href="#"> <img src="{%static 'images/feeling.png'%}" alt="">Feeling/Activity</a>
+                        <input type="submit" value="POST">
+                    </div>
+
+                </form>
+
+
+            </div>
+
+
+
 <div class="post-container">
     <div class="post-row">
         <div class="user_profile">
@@ -46,20 +70,20 @@
                             <form action="{%url 'add-comment' blog.id%}" method="post">
                                 {%csrf_token%}
                                 {{comment_form.as_p}}
-                                <input type="submit">
+                                <input type="submit" class="btn btn-primary">
                             </form>
                         </div>
                     </div>
                 </div>
 
                 <p>
-                    <a class="btn" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false"
-                       aria-controls="collapseExample">
+                    <a class="btn" data-bs-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false"
+                       aria-controls="multiCollapseExample1">
                         <img src="{%static 'images/comments.png'%}">
                     </a>
 
                 </p>
-                <div class="collapse" id="collapseExample">
+                <div class="collapse multi-collapse" id="multiCollapseExample1">
                     <div class="card card-body">
 
                         {%for comment in blog.comments_set.all%}

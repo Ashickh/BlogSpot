@@ -244,7 +244,7 @@ body{
 }
 
 .story2{
-    background: url('/static/images/member-9.png') ;
+    background: url('/static/images/rinustatus.jpeg') ;
 }
 .story3{
     background: url('/static/images/status-3.png') ;
@@ -253,7 +253,7 @@ body{
     background: url('/static/images/cap.jpeg') ;
 }
 .story5{
-    background: url('/static/images/status-5.png') ;
+    background: url('/static/images/cricket.jpg') ;
 }
 .story story1 img{
     top: unset;
